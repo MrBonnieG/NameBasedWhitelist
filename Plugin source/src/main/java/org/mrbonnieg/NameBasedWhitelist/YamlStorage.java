@@ -23,7 +23,7 @@ public class YamlStorage implements Storage {
 
     @Override
     public boolean addPlayer(String username){
-        List<String> whitelistedPlayers = getPlayers();
+        List<String> whitelistedPlayers = new ArrayList<>(getPlayers());
         if(whitelistedPlayers.contains(username.toLowerCase())) return false;
         whitelistedPlayers.add(username.toLowerCase());
         whitelist.set("players", whitelistedPlayers);
@@ -33,7 +33,7 @@ public class YamlStorage implements Storage {
 
     @Override
     public boolean removePlayer(String username){
-        List<String> whitelistedPlayers = getPlayers();
+        List<String> whitelistedPlayers = new ArrayList<>(getPlayers());
         if(!whitelistedPlayers.contains(username.toLowerCase())) return false;
         whitelistedPlayers.remove(username.toLowerCase());
         whitelist.set("players", whitelistedPlayers);
