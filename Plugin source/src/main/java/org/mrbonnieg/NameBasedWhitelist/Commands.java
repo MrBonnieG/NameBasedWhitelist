@@ -8,6 +8,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.mrbonnieg.NameBasedWhitelist.HexColorParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,25 +22,24 @@ public class Commands implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        String noPermissions = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages.no-permissions"));
-        String playerAdd = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages.player-add"));
-        String playerRemove = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages.player-remove"));
-        String playerAlreadyExists = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages.player-already-exists"));
-        String playerNotFound = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages.player-not-found"));
-        String pluginReload = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages.plugin-reload"));
-        String pluginEnable = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages.plugin-enable"));
-        String pluginDisable = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages.plugin-disable"));
-        String pluginUsage = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("messages.plugin-usage"));
+        String noPermissions = HexColorParser.parseHexColors(plugin.getConfig().getString("messages.no-permissions"));
+        String playerAdd = HexColorParser.parseHexColors(plugin.getConfig().getString("messages.player-add"));
+        String playerRemove = HexColorParser.parseHexColors(plugin.getConfig().getString("messages.player-remove"));
+        String playerAlreadyExists = HexColorParser.parseHexColors(plugin.getConfig().getString("messages.player-already-exists"));
+        String playerNotFound = HexColorParser.parseHexColors(plugin.getConfig().getString("messages.player-not-found"));
+        String pluginReload = HexColorParser.parseHexColors(plugin.getConfig().getString("messages.plugin-reload"));
+        String pluginEnable = HexColorParser.parseHexColors(plugin.getConfig().getString("messages.plugin-enable"));
+        String pluginDisable = HexColorParser.parseHexColors(plugin.getConfig().getString("messages.plugin-disable"));
+        String pluginUsage = HexColorParser.parseHexColors(plugin.getConfig().getString("messages.plugin-usage"));
 
         if (args.length == 0) {
             sender.sendMessage(pluginUsage);
             return true;
         }
 
-        String cmd = args[0].toLowerCase();
-        switch (cmd) {
+        switch (args[0].toLowerCase()) {
             case "reload":
-                if (!sender.hasPermission("namebasedwhitelist.manage") || !sender.hasPermission("namebasedwhitelist.*")) {
+                if (!hasManagePermission(sender)) {
                     sender.sendMessage(noPermissions);
                     return true;
                 } else {
@@ -48,7 +48,7 @@ public class Commands implements CommandExecutor, TabCompleter {
                     return true;
                 }
             case "add":
-                if (!sender.hasPermission("namebasedwhitelist.modify") || !sender.hasPermission("namebasedwhitelist.*")) {
+                if (!hasManagePermission(sender)) {
                     sender.sendMessage(noPermissions);
                     return true;
                 } else {
@@ -63,7 +63,7 @@ public class Commands implements CommandExecutor, TabCompleter {
                     }
                 }
             case "remove":
-                if (!sender.hasPermission("namebasedwhitelist.modify") || !sender.hasPermission("namebasedwhitelist.*")) {
+                if (!hasModifyPermission(sender)) {
                     sender.sendMessage(noPermissions);
                     return true;
                 } else {
@@ -78,21 +78,21 @@ public class Commands implements CommandExecutor, TabCompleter {
                     }
                 }
             case "enable":
-                if (!sender.hasPermission("namebasedwhitelist.manage") || !sender.hasPermission("namebasedwhitelist.*")) {
+                if (!hasManagePermission(sender)) {
                     sender.sendMessage(noPermissions);
                     return true;
                 } else {
-                    plugin.config().set("settings.enable", true);
+                    plugin.getConfig().set("settings.enable", true);
                     plugin.saveConfig();
                     sender.sendMessage(pluginEnable);
                     return true;
                 }
             case "disable":
-                if (!sender.hasPermission("namebasedwhitelist.manage") || !sender.hasPermission("namebasedwhitelist.*")) {
+                if (!hasManagePermission(sender)) {
                     sender.sendMessage(noPermissions);
                     return true;
                 } else {
-                    plugin.config().set("settings.enable", false);
+                    plugin.getConfig().set("settings.enable", false);
                     plugin.saveConfig();
                     sender.sendMessage(pluginDisable);
                     return true;
@@ -116,5 +116,13 @@ public class Commands implements CommandExecutor, TabCompleter {
             return playerNames;
         }
         return Lists.newArrayList();
+    }
+
+    private boolean hasManagePermission(CommandSender sender) {
+        return sender.hasPermission("namebasedwhitelist.manage") || sender.hasPermission("namebasedwhitelist.*");
+    }
+
+    private boolean hasModifyPermission(CommandSender sender) {
+        return sender.hasPermission("namebasedwhitelist.modify") || sender.hasPermission("namebasedwhitelist.*");
     }
 }
