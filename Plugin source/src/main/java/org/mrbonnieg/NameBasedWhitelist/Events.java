@@ -1,4 +1,4 @@
-package org.mrbonnieg.namebasedwhitelist;
+package org.mrbonnieg.NameBasedWhitelist;
 
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;

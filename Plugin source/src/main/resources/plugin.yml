@@ -1,6 +1,6 @@
 name: NameBasedWhitelist
-version: '3.2'
-main: org.mrbonnieg.namebasedwhitelist.Main
+version: '3.2.2'
+main: org.mrbonnieg.NameBasedWhitelist.Main
 api-version: '1.19'
 load: STARTUP
 authors: [ MrBonnieG ]

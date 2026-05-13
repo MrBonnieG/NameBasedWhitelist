@@ -1,4 +1,4 @@
-package org.mrbonnieg.namebasedwhitelist;
+package org.mrbonnieg.NameBasedWhitelist;
 
 import com.google.common.collect.Lists;
 import org.bukkit.Bukkit;
