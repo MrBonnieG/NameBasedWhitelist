@@ -39,7 +39,6 @@ If you want to use MySQL instead of YAML:
 ---
 
 ## 📜 Commands
-
 | Command | Description |
 |----------|-------------|
 | `/nbwl add <username>` | Add a player to the whitelist |
@@ -47,11 +46,7 @@ If you want to use MySQL instead of YAML:
 | `/nbwl enable` | Enable Name-Based Whitelist |
 | `/nbwl disable` | Disable Name-Based Whitelist |
 | `/nbwl reload` | Reload configuration |
-
----
-
 ## 🔐 Permissions
-
 | Permission | Description |
 |-------------|-------------|
 | `namebasedwhitelist.*` | Access to all commands |
