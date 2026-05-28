@@ -99,7 +99,6 @@ public class MySqlStorage implements Storage {
         try {
             flushPending();
             loadCache();
-            plugin.getLogger().log(Level.INFO, "Cache synced from DB. Players in whitelist: " + cache.size());
         } catch (Exception e) {
             plugin.getLogger().log(Level.WARNING, "Cache sync from DB failed!", e);
         }
